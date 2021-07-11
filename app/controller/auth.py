@@ -3,7 +3,7 @@ from flask import request, redirect, url_for
 from app.service.auth import Auth
 
 
-@auth_blp.route("", methods = ["POST"])
+@auth_blp.route("/login", methods = ["POST"])
 def authorize():
     data = request.json
     return Auth.authorize(data)

@@ -23,19 +23,19 @@ class Auth():
         pass
 
     def authorize(data):
-        email = data.get("email")
-        password = data.get("password")
-        user = find_user_by_email(email)
+        user_name = data.get("user_name")
+        password = data.get("password1")
+        user = UserModel.query.filter_by(email=user_name).first()
         if not user:
             return {"status": "warning", "message": "Email doesn't exist in our database."}
         if user.password is None or not check_password_hash(user.password, password):           
             return {"status": "warning", "message": "Wrong email or password."}
 
-        access_token = create_access_token(identity=email)
-        refresh_token = create_refresh_token(identity=email)   
-        res = {
-            "access_token": access_token,
-            "refresh_token": refresh_token
-        }
+        # access_token = create_access_token(identity=email)
+        # refresh_token = create_refresh_token(identity=email)   
+        # res = {
+        #     "access_token": access_token,
+        #     "refresh_token": refresh_token
+        # }
 
-        return response(res)
+        return response()

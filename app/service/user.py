@@ -20,6 +20,7 @@ class User():
         password2 = data.get('password2')
         first_name = data.get('first_name')
         last_name = data.get('last_name')
+        user_name = data.get('user_name')
 
         print(email)
         print(password)
@@ -42,11 +43,12 @@ class User():
                 password=password, 
                 first_name= first_name, 
                 last_name = last_name,
-                password2=password2
+                password2=password2,
+                user_name = user_name,
             )
             print(1)
             db.session.add(user)
-            # db.session.flush()
+            db.session.flush()
             # code = gen_salt(48)
             # model = Code(code=code, user_id = user.id)
             # db.session.add(model)

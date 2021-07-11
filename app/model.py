@@ -18,6 +18,7 @@ class User(db.Model):
 
     role_id = db.Column(db.Integer, db.ForeignKey('role.id'), default=3)
     password2 = db.Column(db.String(255), nullable=False)
+    user_name = db.Column(db.String(255), nullable=False)
 
     def __repr__(self):
         return '<User %r>' % self.email

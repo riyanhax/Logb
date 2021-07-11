@@ -15,10 +15,11 @@ bntSignUp.onclick = async(e)=>{
         last_name: document.getElementById("lastname-signup").value,
         password1: document.getElementById("password1-signup").value,
         password2: document.getElementById("password2-signup").value,
+        user_name: document.getElementById("username-signup").value,
     }
 
     postData("api/user/register", payload)
-    .then(data => {console.log(data)})
+    .then(()=> {window.location.replace("/profile")})
     .catch((error) => {
         console.log('Error:', error);
       });
