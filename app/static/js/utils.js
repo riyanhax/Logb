@@ -1,23 +1,38 @@
-var baseUrl = "http://192.168.1.8:5000/"
+// var baseUrl = "http://localhost:5000/"
 
-async function postData(url = '', data = {}) {
+async function postData(url = '', data = {}, headers = {'Content-Type': 'application/json'} ) {
     // Default options are marked with *
-    url = baseUrl+url;
+    // url = baseUrl+url;
     const response = await fetch(url, {
       method: 'POST',
       mode: 'cors',
       cache: 'no-cache',
       credentials: 'same-origin',
-      headers: {
-        'Content-Type': 'application/json'
-      },
+      headers: ,
       redirect: 'follow',
       referrerPolicy: 'no-referrer', 
       body: JSON.stringify(data) 
     });
-    return response.json();
+    return response;
 }
 
+// async function postData(url = '', data = {}) {
+//   // Default options are marked with *
+//   // url = baseUrl+url;
+//   const response = await fetch(url, {
+//     method: 'GET',
+//     mode: 'cors',
+//     cache: 'no-cache',
+//     credentials: 'same-origin',
+//     headers: {
+//       'Content-Type': 'application/json'
+//     },
+//     redirect: 'follow',
+//     referrerPolicy: 'no-referrer', 
+//     body: JSON.stringify(data) 
+//   });
+//   return response;
+// }
 // function get(url, successCallback, async = true) {
 //     $.ajax({
 //         url: baseUrl + url,

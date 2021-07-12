@@ -1,7 +1,6 @@
 from app import config
 from app import mail
 from app.config import config_by_name, BOILERPLATE_ENV
-
 from flask_mail import Message
 
 config = config_by_name[BOILERPLATE_ENV]
@@ -33,5 +32,3 @@ class Utils():
         <br/>
         App Team""".format(username, link)
         mail.send(msg)
-
-

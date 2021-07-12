@@ -6,6 +6,7 @@ from app.service import *
 from app import db
 from app.model import User as UserModel, Code
 from app.utils import Utils
+from sqlalchemy import or_
 
 class User():
     def __init__(self) -> None:
@@ -18,8 +19,8 @@ class User():
         email = data.get('email')
         password = data.get('password1')
         password2 = data.get('password2')
-        first_name = data.get('first_name')
-        last_name = data.get('last_name')
+        first_name = data.get('first_name', '')
+        last_name = data.get('last_name', '')
         user_name = data.get('user_name')
 
         print(email)
@@ -47,6 +48,7 @@ class User():
                 user_name = user_name,
             )
             print(1)
+            
             db.session.add(user)
             db.session.flush()
             # code = gen_salt(48)
@@ -56,10 +58,10 @@ class User():
             # Utils.send_mail(email, user_name, code)
             db.session.commit()
             print(1)
-            return response()
+            return response(user.to_json())
         else:
             print(2)
-            return bad_request("Email already exists.")
+            return bad_request("Email or user name already exists.")
         # except Exception as e:
         #     print(3)
         #     return bad_request(e)
