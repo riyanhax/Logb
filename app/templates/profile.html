@@ -1,7 +1,14 @@
 {% extends "base.html" %}
 
-{% block content %}
-<h1 id="user-name-title" class="title">
-  Welcome, aaaaaa!
-</h1>
+{% block body %}
+<div>
+  <form class="form" id="profile">
+    <h1 id="user-name-title" class="form__title">Welcome, {{name}}</h1>
+    <button id = "btn-logout" class="form__button" type="submit">Logout</button>
+  </form>
+</div>
 {% endblock %}
+
+{% block js %}
+<script src="{{ url_for('static', filename='js/profile.js')}}"></script>
+{% endblock js %}

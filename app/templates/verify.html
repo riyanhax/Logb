@@ -1,17 +1,17 @@
-{% extends "base.html" %}
+<!-- {% extends "base.html" %}
 
-{% block content %}
-<div class="column is-4 is-offset-4">
-    <h3 class="title">Verify</h3>
-    <div class="box">
-        <form>
-            <div class="field">
-                <div class="control">
-                    <input id="input-verify" class="input is-large" type="password" name="password" placeholder="Your Password">
-                </div>
-            </div>
-            <button id="verify-btn" class="button is-block is-info is-large is-fullwidth">Done</button>
-        </form>
-    </div>
+{% block body %}
+<div>
+    <form class="form" id="verify">
+        <div class="form__input-group">
+            <input type="password" id="input-verify" class="form__input" autofocus placeholder="Password2">
+            <div class="form__input-error-message"></div>
+        </div>
+        <button id = "btn-verify" class="form__button" type="submit">Continue</button>
+    </form>
 </div>
 {% endblock %}
+
+{% block js %}
+<script src="{{ url_for('static', filename='js/verify.js')}}"></script>
+{% endblock js %} -->

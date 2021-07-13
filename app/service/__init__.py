@@ -1,17 +1,21 @@
-from flask import jsonify, request, abort
+from flask import jsonify, request, abort, make_response
 from app.model import User as UserModel
 import jwt
 from functools import wraps
 from app.constants import _JWT_SECRET_KEY
 
 def bad_request(message = "Invalid request."):
-    return jsonify(status="Bad request.", message=str(message)), 400
+    return jsonify(status=False, message=str(message)), 400
     
 def response(data = None):
-    return jsonify(data)
+    return jsonify(status=True, data = data)
 
 def find_user_by_email(email):
     user = UserModel.query.filter_by(email=email).first()
+    return user
+
+def find_user_by_id(id):
+    user = UserModel.query.get(id)
     return user
 
 def authorize(f):

@@ -30,7 +30,8 @@ class User(db.Model):
             "verification": self.verification,
             "first_name": self.first_name,
             "last_name": self.last_name,
-            "role_id": self.role_id
+            "role_id": self.role_id,
+            "user_name": self.user_name
         }
 
 class Code(db.Model):
