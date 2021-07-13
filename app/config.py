@@ -4,12 +4,16 @@ from app.constants import _JWT_PRIVATE_KEY, _JWT_PUBLIC_KEY, _JWT_SECRET_KEY
 
 BOILERPLATE_ENV = os.environ.get("BOILERPLATE_ENV", "dev")
 
-DB_USERNAME = os.environ.get("DB_USERNAME", "root")
-DB_PASSWORD = os.environ.get("DB_PASSWORD", "11111111")
-DB_HOST = os.environ.get("DB_HOST", "localhost")
-DB_PORT = os.environ.get("DB_PORT", "3306")
+BASE_DIR = os.path.dirname(os.path.realpath(__file__))
 
-STORE_DB_URI = f"mysql+pymysql://{DB_USERNAME}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/login"
+path = os.getcwd()
+# DB_USERNAME = os.environ.get("DB_USERNAME", "root")
+# DB_PASSWORD = os.environ.get("DB_PASSWORD", "11111111")
+# DB_HOST = os.environ.get("DB_HOST", "localhost")
+# DB_PORT = os.environ.get("DB_PORT", "3306")
+
+# STORE_DB_URI = f"mysql+pymysql://{DB_USERNAME}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/login"
+STORE_DB_URI = f"sqlite:///{path}\login.db"
 
 class Config:
     DEBUG = True
