@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     profileForm.addEventListener("submit", e => {
         e.preventDefault();
 
-        deleteData("/auth/logout", headers)
+        deleteData("/auth/logout")
         .then(response => {
             if (!response.ok){
             let err = new Error(response.status)

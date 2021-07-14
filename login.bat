@@ -7,13 +7,21 @@
 cls
 
 set python_ver=3.9.6
-python -m venv venv2
-call venv2\Scripts\activate.bat
+python -m venv venv
+call venv\Scripts\activate.bat
 pip install -r requirements.txt
 
 ECHO Susscessfully installed venv
-python manage.py
+
+python manage.py create_connection
 ECHO Susscessfully installed db
+
+flask upgrade db
+python manage.py seed
+ECHO Susscessfully updated db
+
+python application.py
+curl localhost:5000
 
 exit
 PAUSE
