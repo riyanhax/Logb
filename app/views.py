@@ -12,7 +12,7 @@ view_blp = Blueprint("view", __name__)
 
 @view_blp.route("/")
 def index():
-    return render_template("login.html")
+    return render_template("index.html")
     # print (1)
     # try:
     # verify_jwt_in_request()
