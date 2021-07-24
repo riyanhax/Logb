@@ -3,3 +3,4 @@ venv
 **.pyc
 login.db
 .vscode
+test.py

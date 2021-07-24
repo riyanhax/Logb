@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", async () => {
+window.addEventListener("load", async () => {
     const profileForm = document.querySelector("#profile");
     const token = sessionStorage.getItem('jwt-token');
     const userText = document.querySelector("#user-name-title")

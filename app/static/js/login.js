@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", () => {
+window.addEventListener("load", () => {
     const loginForm = document.querySelector("#login");
     const verifyForm = document.querySelector("#verify");
 

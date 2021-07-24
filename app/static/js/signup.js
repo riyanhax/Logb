@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", () => {
+window.addEventListener("load", () => {
     const createAccountForm = document.querySelector("#createAccount");
 
     document.querySelector("#linkLogin").addEventListener("click", e => {
