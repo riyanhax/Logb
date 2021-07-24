@@ -27,6 +27,17 @@ const onSignIn = e => {
     .catch(error => setInputError(e.target, "Tài khoản hoặc mật khẩu không đúng."))
 }
 
+const onValidPwdUserName = e => {
+    e.preventDefault();
+    if (e.target.value.length < 8){
+        setInputError(e.target, "Tên đăng nhập và mật khẩu ít nhất có 8 kí tự")
+    }
+    else{
+        clearInputError(e.target);
+    }
+}
+
+
 const onEnterPress = e => {
     if (e.keyCode === 13) {
         onSignIn(e);
@@ -36,11 +47,14 @@ const onEnterPress = e => {
 window.addEventListener("load", () => {
     const btnLogin = document.querySelector(".btn-login");
     const loginForm = document.querySelector("#login");
-    const btnSignup = document.querySelector(".btn-signup");
+    const inputPwd = document.querySelector("#password-login");
+    const inputUserName = document.querySelector("#username-login")
 
     btnSignup.addEventListener("click", onSignUp);
     btnLogin.addEventListener("click", onSignIn);
     loginForm.addEventListener("keyup", onEnterPress);
+    inputPwd.addEventListener("change", onValidPwdUserName);
+    inputUserName.addEventListener("change", onValidPwdUserName);
 
     //     postData("auth/login", payload)
     //     .then((response)=> {
