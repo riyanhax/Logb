@@ -1,7 +1,7 @@
 from flask import request
 from app.service.user import User
 from flask_jwt_extended import jwt_required
-from . import user_blp
+from . import response, user_blp
 
 @user_blp.route("/me", methods = ["GET"])
 @jwt_required()
@@ -24,3 +24,20 @@ def register():
 def change_password():
     data = request.json
     return User.update_password(data)
+
+@user_blp.route("/all_user", methods = ["GET"])
+@jwt_required()
+def all_user():
+    return User.get_all_user()
+
+@user_blp.route("/user", methods = ["DELETE"])
+@jwt_required()
+def delete_user():
+    data = request.json
+    return User.delete_user(data)
+
+@user_blp.route("/code", methods = ["UPDATE"])
+@jwt_required()
+def add_code():
+    data = request.json
+    return User.delete_user(data)

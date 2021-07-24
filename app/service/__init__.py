@@ -10,9 +10,9 @@ def bad_request(message = "Invalid request."):
 def response(data = None):
     return jsonify(status=True, data = data)
 
-def find_user_by_email(email):
-    user = UserModel.query.filter_by(email=email).first()
-    return user
+# def find_user_by_email(email):
+#     user = UserModel.query.filter_by(email=email).first()
+#     return user
 
 def find_user_by_id(id):
     user = UserModel.query.get(id)

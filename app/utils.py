@@ -5,6 +5,10 @@ from flask_mail import Message
 
 config = config_by_name[BOILERPLATE_ENV]
 
+class MessType:
+    CODEERR = "code error"
+    USERERR = "user error"
+
 class Utils():
     def __init__(self) -> None:
         pass

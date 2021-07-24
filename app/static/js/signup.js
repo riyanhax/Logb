@@ -1,32 +1,14 @@
-window.addEventListener("load", () => {
-    const createAccountForm = document.querySelector("#createAccount");
 
-    document.querySelector("#linkLogin").addEventListener("click", e => {
-        e.preventDefault();
-        
-        window.location.replace("/login")
-    });
 
-    createAccountForm.addEventListener("submit", e => {
+
+const onSignUp = e => {
     e.preventDefault();
-    
-    let email = document.getElementById("email-signup").value;
-    let pwd1 = document.getElementById("password1-signup").value;
-    let pwd2 = document.getElementById("password2-signup").value;
-    let name = document.getElementById("username-signup").value;
 
-    if (( pwd1.length < 8) || (pwd2.length < 8) || (name.length < 8)){
-        alert("Password or Username must be at least 8 characters in length");
-        return;
+    payload = {
+        number_phone: document.querySelector("#phone-signup").value,
+        user_name: document.querySelector("#username-signup").value,
+        password: document.querySelector("#password-signup").value
     }
-    
-    let payload = {
-        email: email, 
-        password1: pwd1,
-        password2: pwd2,
-        user_name: name,
-    }
-
 
     postData("api/user/register", payload)
     .then((response)=> {
@@ -36,28 +18,74 @@ window.addEventListener("load", () => {
             err.status = response.status
             throw err 
         }
-        alert("register success");
-        window.location.replace("/login")
+        alert("Đăng ký thành công! Mã phần mềm-nhận tại hotline/zalo 0889.629.555");
+        renderLoginPage();
     })
     .catch((error) => {
-        alert(error.response.message);
+        if ((error.status >= 400) || (error.status < 500)){
+            const createAccountForm = document.querySelector("#createAccount");
+            setFormMessage(createAccountForm, "error", "Đăng ký không thành công!");
+            // alert(error.response.message);
+        }
     });
-    })
+}
 
-    document.querySelectorAll(".form__input").forEach(inputElement => {
-        inputElement.addEventListener("blur", e => {
-            if ((e.target.id === "password1-signup" || e.target.id === "password1-signup") && e.target.value.length > 0 && e.target.value.length < 8) {
-                setInputError(inputElement, "Password must be at least 8 characters in length");
-            }
+const onValidNumber = e => {
+    e.preventDefault();
+    const regex = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im;
 
-            if (e.target.id === "username-signup" && e.target.value.length > 0 && e.target.value.length < 8) {
-                setInputError(inputElement, "Username must be at least 8 characters in length");
-            }
+    if (!e.target.value.match(regex)){
+        setInputError(e.target, "Số điện thoại không hợp lệ.")
+    }
+    else{
+        clearInputError(e.target);
+    }
+}
 
-        });
+const onConfirmPwd = e => {
+    e.preventDefault();
+    const pwd =  document.querySelector("#password-signup").value;
 
-        inputElement.addEventListener("input", e => {
-            clearInputError(inputElement);
-        });
+    if ((e.target.value != pwd) || (e.target.value.length < 8)){
+        console.log(e.target.value);
+        console.log(pwd);
+        setInputError(e.target, "Xác nhận mật khẩu sai.")
+    }
+    else{
+        clearInputError(e.target);
+    }
+}
+
+const onValidPwdUserName = e => {
+    e.preventDefault();
+    if (e.target.value.length < 8){
+        setInputError(e.target, "Tên đăng nhập và mật khẩu ít nhất có 8 kí tự")
+    }
+    else{
+        clearInputError(e.target);
+    }
+}
+
+function renderLoginPage(){
+    const imgID = document.querySelector(".img-layout").dataset.id;
+    window.location.replace(`/login/${imgID}`);
+}
+
+window.addEventListener("load", () => {
+    const createAccountForm = document.querySelector("#createAccount");
+    const inputPwdConfirm = document.querySelector("#confirm-pwd-signup");
+    const inputPhoneNumber = document.querySelector("#phone-signup");
+    const inputUserName = document.querySelector("#username-signup");
+    const inputPwd = document.querySelector("#password-signup");
+
+    createAccountForm.addEventListener("submit", onSignUp);
+    inputPhoneNumber.addEventListener("change", onValidNumber);
+    inputPwdConfirm.addEventListener("change", onConfirmPwd);
+    inputUserName.addEventListener("change", onValidPwdUserName)
+    inputPwd.addEventListener("change", onValidPwdUserName);
+
+    document.querySelector("#linkLogin").addEventListener("click", e => {
+        e.preventDefault();
+        renderLoginPage();
     });
 });

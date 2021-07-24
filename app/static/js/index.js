@@ -1,6 +1,10 @@
 window.addEventListener('load', (event) => {
-    for (const trd in TRADER){
-        let btn =  document.querySelector(`${TRADER[trd]}`);
-        btn.addEventListener("")
-    }
+    const btnList = document.querySelectorAll(".img-btn");
+    btnList.forEach(btn => btn.addEventListener("click", renderLoginPage))
 });
+
+function renderLoginPage(e){
+    e.preventDefault();
+    const dataID = e.target.getAttribute("data-id");
+    window.location.href = `/login/${dataID}`;
+}

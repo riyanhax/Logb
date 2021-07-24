@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="admin-main__body user-management">
+    <div class="panel-top px-0 p-3">
+        <div class="row">
+            <div class="col-6">
+            </div>
+            <div class="col-6">
+                <input class="form-control" id="input-filter" type="search" placeholder="Filter user..." >
+            </div>
+        </div>
+    </div>
+    <div class="data-body w-100 flex-fill position-relative overflow-auto">
+        <div class="data-table ml-3 mb-3">
+            <table class="user-table table table-hover table-deactive mb-0 table-fix-head" id="users-list">
+                <thead>
+                    <tr>
+                        <th class='col-fit'>#</th>
+                        <th class="text-nowrap">Ngày đăng ký</th>
+                        <th class="text-nowrap">Username</th>
+                        <th class="text-nowrap">Phone</th>
+                        <th class="text-truncate">Cấp quyền truy cập</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="pagination-panel-bottom pagination-panel-bottom-collapse w-100">
+        <div class="m-3">
+            <div class="d-flex align-items-center">
+                <div class="btn-group btn-group-sm">
+                    <button class="btn-prev-page btn btn-sm border" aria-label="Previous" data-toggle="tooltip" title="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                        <span class="sr-only">Previous</span>
+                    </button>
+                    <select class="select-page-num custom-select custom-select-sm rounded-0">
+                        <!-- Render options by JS -->
+                    </select>
+                    <button class="btn-next-page btn btn-sm border" aria-label="Next" data-toggle="tooltip" title="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                        <span class="sr-only">Next</span>
+                    </button>
+                </div>
+                <div class="pl-2 show-page-1">1 / 1</div>
+                <div class="d-flex align-items-center pl-3">
+                    <div>Show</div>
+                    <select class="select-rows-num custom-select custom-select-sm mx-2">
+                        <option value="100" selected>100</option>
+                        <option value="300">300</option>
+                        <option value="500">500</option>
+                    </select>
+                    <div class="text-nowrap">rows per page</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

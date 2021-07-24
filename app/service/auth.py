@@ -4,6 +4,7 @@ from app.service import *
 from app import jwt
 from werkzeug.security import check_password_hash
 from flask_jwt_extended import (create_access_token, create_refresh_token, get_jwt)
+from app.utils import MessType
 from flask import session
 # from flask_jwt_extended import get_current_user
 
@@ -31,29 +32,39 @@ class Auth():
 
     def authorize(data):
         try:
-            email = data.get("email")
-            password = data.get("password1")
-            user = UserModel.query.filter_by(email=email).first()
+            user_name = data.get("user_name")
+            password = data.get("password")
+            code = data.get("code")
+            user = UserModel.query.filter_by(user_name=user_name).first()
             session.permanent = False
-            session["email"] = email
+            session["user_name"] = user_name
             if not user:
-                return bad_request("Email doesn't exist in our database.")
+                return bad_request(MessType.USERERR)
             if user.password is None or not check_password_hash(user.password, password):           
-                return bad_request("Wrong email or password.")
-
-            return response()
+                return bad_request(MessType.USERERR)
+            if not code:
+                return bad_request(MessType.CODEERR)
+            
+            access_token = create_access_token(identity=user.id)
+            refresh_token = create_refresh_token(identity=user.id)
+            res = {
+                "access_token": access_token,
+                "refresh_token": refresh_token
+            }
+            print("res: ", res)
+            return response(res)   
         except Exception as e:
             print(e)
-            return bad_request("Email or password incorrect!")
+            return bad_request(MessType.USERERR)
 
     def verify(data):
         try:
             password = data.get("password")
-            email = session.get("email")
-            print(email)
-            if not email:
+            user_name = session.get("user_name")
+            print(user_name)
+            if not user_name:
                 return bad_request("Invalid email!")
-            user = UserModel.query.filter_by(email=email).first()
+            user = UserModel.query.filter_by(email=user_name).first()
             # current_user = get_current_user()
             if user.password2 is None or not check_password_hash(user.password2, password):           
                 return bad_request("Wrong email or password.")
@@ -70,9 +81,9 @@ class Auth():
         except:
             return bad_request("Invalid password!")
 
-    def logout():
-        try:
-            session.pop("email", None)
-            return response()
-        except:
-            return bad_request("Request fail")
+    # def logout():
+    #     try:
+    #         session.pop("email", None)
+    #         return response()
+    #     except:
+    #         return bad_request("Request fail")

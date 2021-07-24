@@ -1,8 +1,8 @@
-"""first migration version
+"""update code
 
-Revision ID: 7013b43baa4e
+Revision ID: d611b8d8e5c3
 Revises: 
-Create Date: 2021-07-14 10:23:16.116590
+Create Date: 2021-07-25 00:18:52.223354
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '7013b43baa4e'
+revision = 'd611b8d8e5c3'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -26,18 +26,17 @@ def upgrade():
     )
     op.create_table('user',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('email', sa.String(length=255), nullable=False),
+    sa.Column('user_name', sa.String(length=255), nullable=False),
+    sa.Column('phone_number', sa.String(length=255), nullable=False),
     sa.Column('password', sa.String(length=255), nullable=False),
     sa.Column('verification', sa.Boolean(), nullable=True),
+    sa.Column('code', sa.String(length=255), nullable=True),
     sa.Column('is_active', sa.Boolean(), nullable=False),
-    sa.Column('first_name', sa.String(length=50), nullable=False),
-    sa.Column('last_name', sa.String(length=50), nullable=False),
     sa.Column('role_id', sa.Integer(), nullable=True),
-    sa.Column('password2', sa.String(length=255), nullable=False),
-    sa.Column('user_name', sa.String(length=255), nullable=False),
+    sa.Column('signup_data', sa.DateTime(), nullable=True),
     sa.ForeignKeyConstraint(['role_id'], ['role.id'], ),
     sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('email')
+    sa.UniqueConstraint('code')
     )
     op.create_table('code',
     sa.Column('id', sa.Integer(), nullable=False),

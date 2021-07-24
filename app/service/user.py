@@ -1,12 +1,10 @@
-from app.controller import not_found
-from app.service import response, bad_request
+from app.controller import not_found, user
+# from app.service import response, bad_request
 from werkzeug.security import generate_password_hash, check_password_hash, gen_salt
 from flask_jwt_extended import get_current_user
 from app.service import *
 from app import db
 from app.model import User as UserModel, Code
-from app.utils import Utils
-from sqlalchemy import or_
 
 class User():
     def __init__(self) -> None:
@@ -16,55 +14,35 @@ class User():
     def register_user(data):
         # try:
         print(1)
-        email = data.get('email')
-        password = data.get('password1')
-        password2 = data.get('password2')
-        first_name = data.get('first_name', '')
-        last_name = data.get('last_name', '')
+        phone_number = data.get('phone_number')
+        password = data.get('password')
         user_name = data.get('user_name')
 
-        print(email)
+        print(phone_number)
         print(password)
-        print(password2)
-        print(first_name)
-        print(last_name)
-        if len(password) < 8 or email is None:
-            return bad_request("Password must be at least 8 characters.")
+        print(user_name)
+
+        if len(password) < 8 or len(user_name) < 8:
+            return bad_request("Username and Password must be at least 8 characters.")
 
         password = generate_password_hash(password, method='sha256')
-        password2 = generate_password_hash(password2, method='sha256')
 
         print(password)
-        print(password2)
-        user = UserModel.query.filter_by(email=email).first()
+        user = UserModel.query.filter(user_name=user_name, phone_number = phone_number).first()
         print(user)
         if not user:
-            print(1)
-            user = UserModel(email=email, 
+            user = UserModel(
                 password=password, 
-                first_name= first_name, 
-                last_name = last_name,
-                password2=password2,
-                user_name = user_name,
+                phone_number= phone_number, 
+                user_name = user_name
             )
-            print(1)
             
             db.session.add(user)
             db.session.flush()
-            # code = gen_salt(48)
-            # model = Code(code=code, user_id = user.id)
-            # db.session.add(model)
-            # user_name = f"{first_name} {last_name}"
-            # Utils.send_mail(email, user_name, code)
             db.session.commit()
-            print(1)
             return response(user.to_json())
         else:
-            print(2)
-            return bad_request("Email or user name already exists.")
-        # except Exception as e:
-        #     print(3)
-        #     return bad_request(e)
+            return bad_request("Phone number or user name already exists.")
     
     @staticmethod
     def get_user_by_id(id):
@@ -84,6 +62,34 @@ class User():
     def get_user_info():
         current_user = get_current_user()
         return response(current_user.to_json())
+
+    @staticmethod
+    def get_all_user():
+        user_all = UserModel.query.all()
+        list_user = [user.to_json() for user in user_all]
+        return response(list_user)
+
+    @staticmethod
+    def delete_user(data):
+        user_id = data.get('id')
+        user = UserModel.query.get(id = user_id)
+        if user:
+            db.session.delete(user)
+            db.session.commit()
+            return response(user.to_json())
+        return bad_request()
+
+    @staticmethod
+    def add_code(data):
+        user_id = data.get("id")
+        code = data.get("code")
+
+        user = UserModel.query.get(id = user_id)
+        if user:
+            user.code = code
+            db.session.commit()
+            return response(user.to_json())
+        return bad_request()
     
     @staticmethod
     def update_password(data):
