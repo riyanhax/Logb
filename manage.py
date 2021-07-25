@@ -38,6 +38,16 @@ def seed():
     # find_or_create_admin()
     # db.session.commit()
 
+def admin():
+    from werkzeug.security import generate_password_hash, check_password_hash, gen_salt
+    conn = sqlite3.connect(db_file)
+    cur = conn.cursor()
+    user_name = "admin_trader"
+    password = generate_password_hash("trader_pwd", method='sha256')
+    cur.execute(f"INSERT INTO User(user_name, password, role_id, is_active) VALUES('{user_name}', '{password}', '1', '1')")
+    conn.commit()
+    conn.close()
+
 def find_or_create_roles(cur, role_name):
     # role = Role.query.filter_by(name=role_name).first()
     # if not role:

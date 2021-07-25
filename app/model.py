@@ -9,29 +9,30 @@ class Role(db.Model):
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_name = db.Column(db.String(255), nullable=False)
-    phone_number = db.Column(db.String(255), nullable=False)
+    phone_number = db.Column(db.String(255), nullable=True)
     password = db.Column(db.String(255), nullable=False)
     verification = db.Column(db.Boolean, default=False)
     code = db.Column(db.String(255), nullable=True, unique=True)
 
     # User fields
-    is_active = db.Column(db.Boolean, nullable=False, default=True)
+    is_active = db.Column(db.Boolean, nullable=False, default=False)
     role_id = db.Column(db.Integer, db.ForeignKey('role.id'), default=3)
-    signup_data = db.Column(db.DateTime, default=datetime.datetime.utcnow)
+    name_app = db.Column(db.String(255), nullable=True)
+    signup_date = db.Column(db.DateTime, default=datetime.datetime.utcnow)
     
     def __repr__(self):
-        return '<User %r>' % self.email
+        return '<user_name %r>' % self.user_name
     
     def to_json(self):
         return {
             "id": self.id,
-            "email": self.email,
             "verification": self.verification,
             "phone_number": self.phone_number,
             "role_id": self.role_id,
             "user_name": self.user_name,
             "code": self.code,
-            "signup_data": self.signup_data.strftime("%Y-%m-%d %H:%M:%S")
+            "name_app": self.name_app,
+            "signup_date": self.signup_date.strftime("%Y-%m-%d %H:%M:%S")
         }
 
 class Code(db.Model):

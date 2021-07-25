@@ -1,15 +1,15 @@
 {% extends "base.html" %}
 
 {% block body %}
-<div>
-  <form class="form" id="profile">
-    <div>
-      <h2 id="user-name-title" class="form__title">Đang cập nhập giữ liệu khách hàng</h2>
-      <div class="loader">
-  
-      </div>
+<div class ="container-profile h-100">
+  <div class="h-100 d-flex align-items-center justify-content-center">
+    <div class="loader-container d-none align-items-center justify-content-center">
+      <div class="loader text-center">
+        <div class="loader-wheel m-auto"></div>
+        <div class="loader-text mt-2"></div>
+      </div>  
     </div>
-  </form>
+  </div>
 </div>
 {% endblock %}
 

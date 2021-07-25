@@ -27,10 +27,10 @@ def index():
 
 @view_blp.route('/profile')
 def profile():
-    if session["user_name"]:
-        return render_template("profile.html")
-    else:
-        return redirect(url_for("view.login"))
+    # if session["user_name"]:
+    return render_template("profile.html")
+    # else:
+    #     return redirect(url_for("view.login"))
     # try:
     #     verify_jwt_in_request()
     #     idt = get_jwt_identity()
@@ -46,9 +46,11 @@ def profile():
 # @view_blp.route('/verify')
 # def verify():
 #     return render_template("verify.html")
-
+@view_blp.route('/login/')
 @view_blp.route('/login/<data_id>')
-def login(data_id):
+def login(data_id = None):
+    if not data_id:
+        return redirect(url_for("view.index.html"))
     return render_template('login.html', img_name = data_id)
 
 @view_blp.route('/signup/<data_id>')
@@ -57,4 +59,9 @@ def signup(data_id):
 
 @view_blp.route('/admin')
 def admin():
+    return render_template('login_admin.html')
+
+@view_blp.route('/admin_page')
+def admin_page():
     return render_template('admin.html')
+  

@@ -1,5 +1,5 @@
-from flask.helpers import url_for
-from werkzeug.utils import redirect
+# from flask.helpers import url_for
+# from werkzeug.utils import redirect
 from app.service import *
 from app import jwt
 from werkzeug.security import check_password_hash
@@ -17,7 +17,7 @@ def load_user(identity):
 
 @jwt.user_lookup_loader
 def user_lookup_callback(jwt_header, jwt_data):
-    print("jwt: ", jwt_data)
+    # print("jwt: ", jwt_data)
     id = jwt_data["identity"]
     user = find_user_by_id(id)
     return user
@@ -30,28 +30,51 @@ class Auth():
     def __init__(self) -> None:
         pass
 
-    def authorize(data):
+    def admin_authorize(data):
         try:
             user_name = data.get("user_name")
             password = data.get("password")
-            code = data.get("code")
-            user = UserModel.query.filter_by(user_name=user_name).first()
-            session.permanent = False
-            session["user_name"] = user_name
+            user = UserModel.query.filter_by(user_name=user_name, role_id = 1).first()
             if not user:
                 return bad_request(MessType.USERERR)
             if user.password is None or not check_password_hash(user.password, password):           
                 return bad_request(MessType.USERERR)
-            if not code:
-                return bad_request(MessType.CODEERR)
             
+            session.permanent = False
+            session["user_name"] = user_name
             access_token = create_access_token(identity=user.id)
             refresh_token = create_refresh_token(identity=user.id)
             res = {
                 "access_token": access_token,
                 "refresh_token": refresh_token
             }
-            print("res: ", res)
+            return response(res)   
+        except:
+            return bad_request()
+
+    def authorize(data):
+        try:
+            user_name = data.get("user_name")
+            password = data.get("password")
+            code = data.get("code")
+            name_app = data.get("imgID")
+            user = UserModel.query.filter(UserModel.user_name==user_name, UserModel.role_id != 1, UserModel.name_app == name_app).first()
+            if not user:
+                return bad_request(MessType.USERERR)
+            if user.password is None or not check_password_hash(user.password, password):           
+                return bad_request(MessType.USERERR)
+            if not code or not check_password_hash(user.code, code):
+                return bad_request(MessType.CODEERR)
+            
+            session.permanent = False
+            session["user_name"] = user_name
+            access_token = create_access_token(identity=user.id)
+            refresh_token = create_refresh_token(identity=user.id)
+            res = {
+                "access_token": access_token,
+                "refresh_token": refresh_token
+            }
+            # print("res: ", res)
             return response(res)   
         except Exception as e:
             print(e)

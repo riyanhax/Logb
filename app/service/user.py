@@ -5,6 +5,7 @@ from flask_jwt_extended import get_current_user
 from app.service import *
 from app import db
 from app.model import User as UserModel, Code
+from sqlalchemy import or_
 
 class User():
     def __init__(self) -> None:
@@ -12,37 +13,34 @@ class User():
 
     @staticmethod
     def register_user(data):
-        # try:
-        print(1)
-        phone_number = data.get('phone_number')
-        password = data.get('password')
-        user_name = data.get('user_name')
+        try:
+            phone_number = data.get('phone_number')
+            password = data.get('password')
+            user_name = data.get('user_name')
+            imgID = data.get('imgID')
 
-        print(phone_number)
-        print(password)
-        print(user_name)
+            if len(password) < 8 or len(user_name) < 8:
+                return bad_request("Username and Password must be at least 8 characters.")
 
-        if len(password) < 8 or len(user_name) < 8:
-            return bad_request("Username and Password must be at least 8 characters.")
+            password = generate_password_hash(password, method='sha256')
+            user = UserModel.query.filter(or_(UserModel.user_name == user_name, UserModel.phone_number == phone_number)).first()
 
-        password = generate_password_hash(password, method='sha256')
-
-        print(password)
-        user = UserModel.query.filter(user_name=user_name, phone_number = phone_number).first()
-        print(user)
-        if not user:
-            user = UserModel(
-                password=password, 
-                phone_number= phone_number, 
-                user_name = user_name
-            )
-            
-            db.session.add(user)
-            db.session.flush()
-            db.session.commit()
-            return response(user.to_json())
-        else:
-            return bad_request("Phone number or user name already exists.")
+            if not user:
+                user = UserModel(
+                    password=password, 
+                    phone_number= phone_number, 
+                    user_name = user_name,
+                    name_app = imgID
+                )
+                
+                db.session.add(user)
+                db.session.flush()
+                db.session.commit()
+                return response(user.to_json())
+            else:
+                return bad_request("Phone number or user name already exists.")
+        except:
+            return bad_request()
     
     @staticmethod
     def get_user_by_id(id):
@@ -65,31 +63,38 @@ class User():
 
     @staticmethod
     def get_all_user():
-        user_all = UserModel.query.all()
+        user_all = UserModel.query.filter(UserModel.role_id != 1).all()
         list_user = [user.to_json() for user in user_all]
         return response(list_user)
 
     @staticmethod
     def delete_user(data):
-        user_id = data.get('id')
-        user = UserModel.query.get(id = user_id)
-        if user:
-            db.session.delete(user)
-            db.session.commit()
-            return response(user.to_json())
-        return bad_request()
+        try:
+            user_id = data.get('user_id')
+            user = UserModel.query.get(user_id)
+            if user:
+                db.session.delete(user)
+                db.session.commit()
+                return response(user.to_json())
+            return bad_request()
+        except:
+            return bad_request()
 
     @staticmethod
     def add_code(data):
-        user_id = data.get("id")
-        code = data.get("code")
+        try:
+            user_id = data.get("user_id")
+            code = data.get("code")
 
-        user = UserModel.query.get(id = user_id)
-        if user:
-            user.code = code
-            db.session.commit()
-            return response(user.to_json())
-        return bad_request()
+            user = UserModel.query.get(user_id)
+            if user:
+                code = generate_password_hash(code, method='sha256')
+                user.code = code
+                db.session.commit()
+                return response(user.to_json())
+            return bad_request()
+        except:
+            return bad_request()
     
     @staticmethod
     def update_password(data):

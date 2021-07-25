@@ -2,36 +2,35 @@
 
 {% block body %}
 <div class="container-main">
-
-    <div class="container">
-        <div>
-            <form class="form" id="login">
-                <h2 class="form__title">Đăng nhập hệ thống</h2>
-                <div class="img-login-container">
-                    <img id="icon-login" class="img-layout" data-id="{{img_name}}" src="../static/img/btnicon/{{img_name}}.jpg" alt="wfinex">
-                </div>
-                <div class="form__message form__message--error"></div>
-                <div class="form__input-group">
-                    <div class="form__label-text">Username</div>
-                    <input type="text" id="username-login" class="form__input" autofocus placeholder="Nhập tài khoản đăng Nhập">
-                    <div class="form__input-error-message"></div>
-                </div>
-                <div class="form__input-group">
-                    <div class="form__label-text">password</div>
-                    <input type="password" id="password-login" class="form__input" autofocus placeholder="Nhập mật khẩu">
-                    <div class="form__input-error-message"></div>
-                </div>
-                <div class="form__input-group">
-                    <div class="form__label-text">Mã phần mềm-nhận tại hotline/zalo 0889.629.555</div>
-                    <input type="password" id="input-verify" class="form__input" autofocus placeholder="Nhập mã phần mềm">
-                    <div class="form__input-error-message"></div>
-                </div>
-                <div>
-                    <button class="btn-login form__button" type="button">Đăng nhập</button>
-                    <button class="btn-signup form__button" type="button">Đăng ký</button>
-                </div>
-            </form>
+    <div class="header-container">
+        <h2 class="text-title text-title--color text-title--upper">Đăng nhập hệ thống</h2>
+        <div class="img-login-container">
+            <img id="icon-login" class="img-layout" data-id="{{img_name}}" src="../static/img/btnicon/{{img_name}}.jpg" alt="wfinex">
         </div>
+    </div>
+    <div class="form-container">
+        <form class="form" id="login">
+            <div class="form__message form__message--error"></div>
+            <div class="form__input-group">
+                <div class="form__label-text">Username</div>
+                <input type="text" id="username-login" class="form__input" autofocus placeholder="Nhập tài khoản đăng Nhập">
+                <div class="form__input-error-message"></div>
+            </div>
+            <div class="form__input-group">
+                <div class="form__label-text">password</div>
+                <input type="password" id="password-login" class="form__input" autofocus placeholder="Nhập mật khẩu">
+                <div class="form__input-error-message"></div>
+            </div>
+            <div class="form__input-group">
+                <div class="form__label-text">Mã phần mềm-nhận tại hotline/zalo 0889.629.555</div>
+                <input type="password" id="input-verify" class="form__input" autofocus placeholder="Nhập mã phần mềm">
+                <div class="form__input-error-message"></div>
+            </div>
+            <div>
+                <button class="btn-login form__button" type="button">Đăng nhập</button>
+                <button class="btn-signup form__button" type="button">Đăng ký</button>
+            </div>
+        </form>
     </div>
 </div>
 {% endblock %}

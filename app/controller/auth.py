@@ -18,3 +18,8 @@ def verify():
 # @jwt_required()
 def logout():
     return Auth.logout()
+
+@auth_blp.route("/admin", methods = ["POST"])
+def admin_authorize():
+    data = request.json
+    return Auth.admin_authorize(data)

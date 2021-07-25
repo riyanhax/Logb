@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block body %}
-<div class="admin-main__body user-management">
+<div class="admin-main__body user-management h-100 d-none flex-column">
     <div class="panel-top px-0 p-3">
         <div class="row">
             <div class="col-6">
@@ -11,15 +11,17 @@
         </div>
     </div>
     <div class="data-body w-100 flex-fill position-relative overflow-auto">
-        <div class="data-table ml-3 mb-3">
-            <table class="user-table table table-hover table-deactive mb-0 table-fix-head" id="users-list">
+        <div class="data-table mx-3 mb-3">
+            <table class="user-table table table-hover table-striped" id="users-list">
                 <thead>
                     <tr>
                         <th class='col-fit'>#</th>
-                        <th class="text-nowrap">Ngày đăng ký</th>
                         <th class="text-nowrap">Username</th>
                         <th class="text-nowrap">Phone</th>
+                        <th class="text-nowrap">Ngày đăng ký</th>
+                        <th class="text-nowrap">Tên app</th>
                         <th class="text-truncate">Cấp quyền truy cập</th>
+                        <th class="text-nowrap"></th>
                     </tr>
                 </thead>
                 <tbody></tbody>
@@ -27,8 +29,8 @@
         </div>
     </div>
 
-    <div class="pagination-panel-bottom pagination-panel-bottom-collapse w-100">
-        <div class="m-3">
+    <div class="pagination-panel-bottom pagination-panel-bottom-collapse w-100 mx-3">
+        <div class="my-3">
             <div class="d-flex align-items-center">
                 <div class="btn-group btn-group-sm">
                     <button class="btn-prev-page btn btn-sm border" aria-label="Previous" data-toggle="tooltip" title="Previous">
@@ -57,4 +59,12 @@
         </div>
     </div>
 </div>
+{% include 'modal_code.html' %}
 {% endblock %}
+
+
+{% block js %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/3.4.6/fuse.min.js"></script>
+<script src="{{ url_for('static', filename='js/admin.js')}}"></script>
+<!-- <script src="{{ url_for('static', filename='js/modal_code.js')}}"></script> -->
+{% endblock js %}

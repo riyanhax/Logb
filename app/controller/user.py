@@ -30,7 +30,7 @@ def change_password():
 def all_user():
     return User.get_all_user()
 
-@user_blp.route("/user", methods = ["DELETE"])
+@user_blp.route("/me", methods = ["DELETE"])
 @jwt_required()
 def delete_user():
     data = request.json
@@ -40,4 +40,6 @@ def delete_user():
 @jwt_required()
 def add_code():
     data = request.json
-    return User.delete_user(data)
+    return User.add_code(data)
+
+    

@@ -5,10 +5,13 @@ const onSignUp = e => {
     e.preventDefault();
 
     payload = {
-        number_phone: document.querySelector("#phone-signup").value,
+        phone_number: document.querySelector("#phone-signup").value,
         user_name: document.querySelector("#username-signup").value,
-        password: document.querySelector("#password-signup").value
+        password: document.querySelector("#password-signup").value,
+        imgID: document.querySelector(".img-layout").dataset.id
     }
+
+    const createAccountForm = document.querySelector("#createAccount");
 
     postData("api/user/register", payload)
     .then((response)=> {
@@ -18,12 +21,14 @@ const onSignUp = e => {
             err.status = response.status
             throw err 
         }
+        setFormMessage(createAccountForm, "success");
+
         alert("Đăng ký thành công! Mã phần mềm-nhận tại hotline/zalo 0889.629.555");
+
         renderLoginPage();
     })
     .catch((error) => {
         if ((error.status >= 400) || (error.status < 500)){
-            const createAccountForm = document.querySelector("#createAccount");
             setFormMessage(createAccountForm, "error", "Đăng ký không thành công!");
             // alert(error.response.message);
         }

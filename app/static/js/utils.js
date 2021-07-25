@@ -1,5 +1,8 @@
+
+var baseUrl = "http://localhost:5000/"
 async function postData(url = '', data = {}) {
     // Default options are marked with *
+    url = baseUrl + url;
     const response = await fetch(url, {
       method: 'POST',
       mode: 'cors',
@@ -14,6 +17,7 @@ async function postData(url = '', data = {}) {
 }
 
 async function getData(url = '', headers = {'Content-Type': 'application/json'}) {
+  url = baseUrl + url;
   const response = await fetch(url, {
     method: 'GET',
     headers: headers,
@@ -21,10 +25,22 @@ async function getData(url = '', headers = {'Content-Type': 'application/json'})
   return response;
 }
 
-async function deleteData(url = '', headers = {'Content-Type': 'application/json'}) {
+async function deleteData(url = '', data = {}, headers = {'Content-Type': 'application/json'}) {
+  url = baseUrl + url;
   const response = await fetch(url, {
     method: 'DELETE',
     headers: headers,
+    body: JSON.stringify(data) 
+  });
+  return response;
+}
+
+async function updateData(url = '', data = {}, headers = {'Content-Type': 'application/json'}) {
+  url = baseUrl + url;
+  const response = await fetch(url, {
+    method: 'UPDATE',
+    headers: headers,
+    body: JSON.stringify(data) 
   });
   return response;
 }
