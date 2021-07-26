@@ -11,8 +11,7 @@ const TRADER = {
     WEFINEX: "wefinex"
 }
 
-// const TRADERID = {
-//     ARESBO: 1,
-//     BINANEX: 2,
-
-// }
+const PaginationValue = {
+    DEFAULT_PAGE_NUMBER: 1,
+    DEFAULT_PAGE_SIZE: 100
+}

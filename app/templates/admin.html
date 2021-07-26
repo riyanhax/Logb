@@ -4,9 +4,12 @@
     <div class="panel-top px-0 p-3">
         <div class="row">
             <div class="col-6">
+                <button class="btn btn-primary btn-add-new">
+                    <i class="fa fa-plus" aria-hidden="true"></i> Thêm người dùng mới
+                </button>
             </div>
             <div class="col-6">
-                <input class="form-control" id="input-filter" type="search" placeholder="Filter user..." >
+                <input class="form-control" id="input-search" type="search" placeholder="Filter user..." >
             </div>
         </div>
     </div>
@@ -19,8 +22,8 @@
                         <th class="text-nowrap">Username</th>
                         <th class="text-nowrap">Phone</th>
                         <th class="text-nowrap">Ngày đăng ký</th>
-                        <th class="text-nowrap">Tên app</th>
-                        <th class="text-truncate">Cấp quyền truy cập</th>
+                        <th class="text-nowrap">Sàn giao dịch</th>
+                        <th class="text-nowrap">Cấp quyền truy cập</th>
                         <th class="text-nowrap"></th>
                     </tr>
                 </thead>
@@ -60,6 +63,7 @@
     </div>
 </div>
 {% include 'modal_code.html' %}
+{% include 'modal_new_user.html' %}
 {% endblock %}
 
 
