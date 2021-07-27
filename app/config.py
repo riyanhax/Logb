@@ -7,13 +7,13 @@ BOILERPLATE_ENV = os.environ.get("BOILERPLATE_ENV", "dev")
 BASE_DIR = os.path.dirname(os.path.realpath(__file__))
 
 path = os.getcwd()
-# DB_USERNAME = os.environ.get("DB_USERNAME", "root")
-# DB_PASSWORD = os.environ.get("DB_PASSWORD", "11111111")
-# DB_HOST = os.environ.get("DB_HOST", "localhost")
-# DB_PORT = os.environ.get("DB_PORT", "3306")
+DB_USERNAME = os.environ.get("DB_USERNAME", "root")
+DB_PASSWORD = os.environ.get("DB_PASSWORD", "11111111")
+DB_HOST = os.environ.get("DB_HOST", "localhost")
+DB_PORT = os.environ.get("DB_PORT", "3306")
 
-# STORE_DB_URI = f"mysql+pymysql://{DB_USERNAME}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/login"
-STORE_DB_URI = f"sqlite:///{path}\login.db"
+STORE_DB_URI = f"mysql+pymysql://{DB_USERNAME}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/login"
+# STORE_DB_URI = f"sqlite:///{path}\login.db"
 
 class Config:
     DEBUG = True

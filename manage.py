@@ -11,6 +11,12 @@ from app.model import Role
 base_path = os.getcwd()
 db_file = f"{base_path}\\login.db"
 
+DB_USERNAME = os.environ.get("DB_USERNAME", "root")
+DB_PASSWORD = os.environ.get("DB_PASSWORD", "11111111")
+DB_HOST = os.environ.get("DB_HOST", "localhost")
+DB_PORT = os.environ.get("DB_PORT", 3306)
+
+import pymysql
 
 
 def create_connection():
@@ -27,9 +33,18 @@ def create_connection():
             conn.close()
 
 def seed():
-    conn = sqlite3.connect(db_file)
-    cur = conn.cursor()
+    # conn = sqlite3.connect(db_file)
+    print(DB_PORT)
+    conn  = pymysql.connect(
+    host=DB_HOST,
+    user=DB_USERNAME, 
+    port = DB_PORT,
+    password = DB_PASSWORD,
+    db='login',
+    )
+
     
+    cur = conn.cursor()
     find_or_create_roles(cur, "admin")
     find_or_create_roles(cur, "user")
     conn.commit()
@@ -40,29 +55,33 @@ def seed():
 
 def admin():
     from werkzeug.security import generate_password_hash, check_password_hash, gen_salt
-    conn = sqlite3.connect(db_file)
+    conn  = pymysql.connect(
+    host=DB_HOST,
+    user=DB_USERNAME, 
+    port = DB_PORT,
+    password = DB_PASSWORD,
+    db='login',
+    )
     cur = conn.cursor()
     user_name = "admin_trader"
     password = generate_password_hash("trader_pwd", method='sha256')
-    cur.execute(f"INSERT INTO User(user_name, password, role_id, is_active) VALUES('{user_name}', '{password}', '1', '1')")
+    cur.execute(f"INSERT INTO User(id, user_name, password, role_id, is_active) VALUES('1', '{user_name}', '{password}', '1', '1')")
     conn.commit()
     conn.close()
 
-def addUser():
-    conn = sqlite3.connect(db_file)
-    cur = conn.cursor()
-    is_active = '1'
-    name_app = 'kitanex'
-    # print(','.join(user_name))
-    import datetime
-    for i in range(1000):
-        user_name = 'admin_trader %s' %i
-        time = datetime.datetime.utcnow()
-        # print(time)
-        cur.execute(f"UPDATE user SET signup_date = '{time}' WHERE 'role_id' != '1'")
-        conn.commit()
-    
-    conn.close()
+# def addUser():
+#     from werkzeug.security import generate_password_hash, check_password_hash, gen_salt
+#     conn = sqlite3.connect(db_file)
+#     cur = conn.cursor()
+#     user_name = ['admain_trader %s' %i for i in range(1000)]
+#     password = [generate_password_hash("11223344", method='sha256') for i in range(1000)]
+#     code = [generate_password_hash("11223344", method='sha256') for i in range(1000)]
+#     is_active = ['1' for i in range(1000)]
+#     name_app = ['kitanex' for i in range(1000)]
+#     print(type(','.join(user_name)))
+#     cur.execute(f"INSERT INTO user(user_name, password, code, is_active, name_app) VALUES ({','.join(user_name)}), ({password}), ({code}), ({is_active}), ({name_app})")
+#     conn.commit()
+#     conn.close()
 
 
 def find_or_create_roles(cur, role_name):
