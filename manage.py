@@ -48,6 +48,23 @@ def admin():
     conn.commit()
     conn.close()
 
+def addUser():
+    conn = sqlite3.connect(db_file)
+    cur = conn.cursor()
+    is_active = '1'
+    name_app = 'kitanex'
+    # print(','.join(user_name))
+    import datetime
+    for i in range(1000):
+        user_name = 'admin_trader %s' %i
+        time = datetime.datetime.utcnow()
+        # print(time)
+        cur.execute(f"UPDATE user SET signup_date = '{time}' WHERE 'role_id' != '1'")
+        conn.commit()
+    
+    conn.close()
+
+
 def find_or_create_roles(cur, role_name):
     # role = Role.query.filter_by(name=role_name).first()
     # if not role:

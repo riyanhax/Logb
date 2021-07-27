@@ -33,8 +33,35 @@ class AdminManagement{
 
     onAddNewUser(){
         let payload = {
-
+            phone_number: this.modalNewUser.querySelector('.phone-new').value,
+            user_name: this.modalNewUser.querySelector('.name-new').value,
+            password: this.modalNewUser.querySelector('.pwd-new').value,
+            imgID: this.modalNewUser.querySelector('.web-new').value,
+            code: this.modalNewUser.querySelector('.code-new').value
         }
+
+        postData("api/user/register", payload)
+        .then((response)=> {
+            if (!response.ok){
+                let err = new Error(response.status)
+                err.response = response.json()
+                err.status = response.status
+                throw err 
+            }
+            return response.json()
+        })
+        .then(res => {
+            alert("Đăng ký thành công");
+            $(this.modalNewUser).modal('hide');
+            this.userList.push(res.data);
+            this.renderUserList(this.userList);            
+        })
+        .catch((error) => {
+            if ((error.status >= 400) || (error.status < 500)){
+                alert("Đăng ký không thành công!");
+                $(this.modalNewUser).modal('hide');
+            }
+        });
     }
 
     showUserModal(){
@@ -79,7 +106,7 @@ class AdminManagement{
             let option = document.createElement('option')
             option.value = '1';
             option.text = 1;
-            options.innerHTML = 1
+            option.innerHTML = 1
             this.selectPageNum.appendChild(option);
             this.page.querySelector(".show-page-1").innerHTML = "Page: " + pagination.current_page + " / 1";
         } else 

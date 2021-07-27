@@ -13,34 +13,36 @@ class User():
 
     @staticmethod
     def register_user(data):
-        try:
-            phone_number = data.get('phone_number')
-            password = data.get('password')
-            user_name = data.get('user_name')
-            imgID = data.get('imgID')
+        # try:
+        phone_number = data.get('phone_number')
+        password = data.get('password')
+        user_name = data.get('user_name')
+        imgID = data.get('imgID')
+        code = data.get('code')
 
-            if len(password) < 8 or len(user_name) < 8:
-                return bad_request("Username and Password must be at least 8 characters.")
+        if len(password) < 8 or len(user_name) < 8:
+            return bad_request("Username and Password must be at least 8 characters.")
 
-            password = generate_password_hash(password, method='sha256')
-            user = UserModel.query.filter(or_(UserModel.user_name == user_name, UserModel.phone_number == phone_number)).first()
+        password = generate_password_hash(password, method='sha256')
+        code = generate_password_hash(code, method='sha256') if code else None
+        user = UserModel.query.filter(or_(UserModel.user_name == user_name, UserModel.phone_number == phone_number)).first()
 
-            if not user:
-                user = UserModel(
-                    password=password, 
-                    phone_number= phone_number, 
-                    user_name = user_name,
-                    name_app = imgID
-                )
-                
-                db.session.add(user)
-                db.session.flush()
-                db.session.commit()
-                return response(user.to_json())
-            else:
-                return bad_request("Phone number or user name already exists.")
-        except:
-            return bad_request()
+        if not user:
+            user = UserModel(
+                password=password, 
+                phone_number= phone_number, 
+                user_name = user_name,
+                name_app = imgID,
+                code = code
+            )
+            
+            db.session.add(user)
+            db.session.commit()
+            return response(user.to_json())
+        else:
+            return bad_request("Phone number or user name already exists.")
+        # except:
+        #     return bad_request()
     
     @staticmethod
     def get_user_by_id(id):
