@@ -1,18 +1,20 @@
 import os
 import datetime
 from app.constants import _JWT_PRIVATE_KEY, _JWT_PUBLIC_KEY, _JWT_SECRET_KEY
+from urllib.parse import quote
 
 BOILERPLATE_ENV = os.environ.get("BOILERPLATE_ENV", "dev")
 
 BASE_DIR = os.path.dirname(os.path.realpath(__file__))
 
 path = os.getcwd()
-DB_USERNAME = os.environ.get("DB_USERNAME", "root")
-DB_PASSWORD = os.environ.get("DB_PASSWORD", "11111111")
+DB_USERNAME = os.environ.get("DB_USERNAME", "admin")
+DB_PASSWORD = os.environ.get("DB_PASSWORD", "Coca@Pizza123")
 DB_HOST = os.environ.get("DB_HOST", "localhost")
 DB_PORT = os.environ.get("DB_PORT", "3306")
 
-STORE_DB_URI = f"mysql+pymysql://{DB_USERNAME}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/login"
+STORE_DB_URI = f"mysql+pymysql://{DB_USERNAME}:%s@{DB_HOST}:{DB_PORT}/login"% quote(DB_PASSWORD)
+print(STORE_DB_URI)
 # STORE_DB_URI = f"sqlite:///{path}\login.db"
 
 class Config:

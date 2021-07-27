@@ -40,7 +40,7 @@ class AdminManagement{
             code: this.modalNewUser.querySelector('.code-new').value
         }
 
-        postData("api/user/register", payload)
+        postData("/api/user/register", payload)
         .then((response)=> {
             if (!response.ok){
                 let err = new Error(response.status)
@@ -149,7 +149,7 @@ class AdminManagement{
 
         const headers = { 'Authorization': 'Bearer '+token,
         'Content-Type': 'application/json'};
-        getData("api/user/all_user", headers)
+        getData("/api/user/all_user", headers)
         .then(res =>{
             if (!res.ok){
                 let err = new Error(response.status)

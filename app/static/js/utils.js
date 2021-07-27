@@ -1,5 +1,5 @@
 
-var baseUrl = "http://localhost:5000/"
+var baseUrl = ""
 async function postData(url = '', data = {}) {
     // Default options are marked with *
     url = baseUrl + url;

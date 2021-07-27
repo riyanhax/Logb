@@ -13,7 +13,7 @@ const onSignUp = e => {
 
     const createAccountForm = document.querySelector("#createAccount");
 
-    postData("api/user/register", payload)
+    postData("/api/user/register", payload)
     .then((response)=> {
         if (!response.ok){
             let err = new Error(response.status)

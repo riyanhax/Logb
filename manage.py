@@ -7,81 +7,50 @@ from app import db
 import sys
 import os
 
-from app.model import Role
-base_path = os.getcwd()
-db_file = f"{base_path}\\login.db"
+from urllib.parse import quote
+from sqlalchemy import create_engine, engine
 
-DB_USERNAME = os.environ.get("DB_USERNAME", "root")
-DB_PASSWORD = os.environ.get("DB_PASSWORD", "11111111")
+
+
+base_path = os.getcwd()
+
+
+DB_USERNAME = os.environ.get("DB_USERNAME", "admin")
+DB_PASSWORD = os.environ.get("DB_PASSWORD", "Coca@Pizza123")
 DB_HOST = os.environ.get("DB_HOST", "localhost")
 DB_PORT = os.environ.get("DB_PORT", 3306)
+
+STORE_DB_URI = f"mysql+pymysql://{DB_USERNAME}:%s@{DB_HOST}:{DB_PORT}/login"% quote(DB_PASSWORD)
+engine = create_engine(STORE_DB_URI)
 
 import pymysql
 
 
-def create_connection():
-    """ create a database connection to a SQLite database """
-    conn = None
-    try:
-        
-        conn = sqlite3.connect(db_file)
-        print(sqlite3.version)
-    except Error as e:
-        print(e)
-    finally:
-        if conn:
-            conn.close()
-
-def seed():
-    # conn = sqlite3.connect(db_file)
-    print(DB_PORT)
-    conn  = pymysql.connect(
-    host=DB_HOST,
-    user=DB_USERNAME, 
-    port = DB_PORT,
-    password = DB_PASSWORD,
-    db='login',
-    )
+# def seed():
+#     # conn = sqlite3.connect(db_file)
+#     print(DB_PORT)
+#     conn  = pymysql.connect(
+#     host=DB_HOST,
+#     user=DB_USERNAME, 
+#     port = DB_PORT,
+#     password = DB_PASSWORD,
+#     db='login',
+#     )
 
     
-    cur = conn.cursor()
-    find_or_create_roles(cur, "admin")
-    find_or_create_roles(cur, "user")
-    conn.commit()
-    conn.close()
-    # find_or_create_roles("user")
-    # find_or_create_admin()
-    # db.session.commit()
-
-def admin():
-    from werkzeug.security import generate_password_hash, check_password_hash, gen_salt
-    conn  = pymysql.connect(
-    host=DB_HOST,
-    user=DB_USERNAME, 
-    port = DB_PORT,
-    password = DB_PASSWORD,
-    db='login',
-    )
-    cur = conn.cursor()
-    user_name = "admin_trader"
-    password = generate_password_hash("trader_pwd", method='sha256')
-    cur.execute(f"INSERT INTO User(id, user_name, password, role_id, is_active) VALUES('1', '{user_name}', '{password}', '1', '1')")
-    conn.commit()
-    conn.close()
-
-# def addUser():
-#     from werkzeug.security import generate_password_hash, check_password_hash, gen_salt
-#     conn = sqlite3.connect(db_file)
 #     cur = conn.cursor()
-#     user_name = ['admain_trader %s' %i for i in range(1000)]
-#     password = [generate_password_hash("11223344", method='sha256') for i in range(1000)]
-#     code = [generate_password_hash("11223344", method='sha256') for i in range(1000)]
-#     is_active = ['1' for i in range(1000)]
-#     name_app = ['kitanex' for i in range(1000)]
-#     print(type(','.join(user_name)))
-#     cur.execute(f"INSERT INTO user(user_name, password, code, is_active, name_app) VALUES ({','.join(user_name)}), ({password}), ({code}), ({is_active}), ({name_app})")
+#     find_or_create_roles(cur, "admin")
+#     find_or_create_roles(cur, "user")
 #     conn.commit()
 #     conn.close()
+
+def admin():
+
+    from werkzeug.security import generate_password_hash
+   
+    user_name = "admin_trader"
+    password = generate_password_hash("trader_pwd", method='sha256')
+    engine.execute(f"INSERT INTO user(id, user_name, password, role_id, is_active) VALUES('1', '{user_name}', '{password}', '1', '1')")
 
 
 def find_or_create_roles(cur, role_name):
