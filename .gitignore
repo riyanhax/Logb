@@ -5,4 +5,4 @@ login.db
 .vscode
 test.py
 /logger.log
-# app/config.py
+app/config.py
