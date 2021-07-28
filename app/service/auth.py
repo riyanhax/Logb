@@ -8,6 +8,9 @@ from app.utils import MessType
 from flask import session
 # from flask_jwt_extended import get_current_user
 from sqlalchemy import and_
+import logging
+
+logger = logging.getLogger('login.app')
 
 
 @jwt.user_identity_loader
@@ -32,9 +35,14 @@ class Auth():
 
     def admin_authorize(data):
         try:
+            logger.info("function -------admin_authorize-------")
             user_name = data.get("user_name")
             password = data.get("password")
+            logger.info("user_name %s" %user_name)
+            logger.info("password %s" %password)
+
             user = UserModel.query.filter_by(user_name=user_name, role_id = 1).first()
+            logger.info("user %s" %user)
             if not user:
                 return bad_request(MessType.USERERR)
             if user.password is None or not check_password_hash(user.password, password):           
@@ -48,17 +56,27 @@ class Auth():
                 "access_token": access_token,
                 "refresh_token": refresh_token
             }
+            logger.info("Succes")
             return response(res)   
         except:
+            logger.info("except request")
             return bad_request()
 
     def authorize(data):
         try:
+            logger.info("function -------authorize-------")
             user_name = data.get("user_name")
             password = data.get("password")
             code = data.get("code")
             name_app = data.get("imgID")
+
+            logger.info("user_name %s" %user_name)
+            logger.info("password %s" %password)
+            logger.info("code %s" %code)
+            logger.info("name_app %s" %name_app)
+
             user = UserModel.query.filter(and_(UserModel.user_name==user_name, UserModel.role_id != 1, UserModel.name_app == name_app)).first()
+            logger.info("user %s " %user)
             if not user:
                 return bad_request(MessType.USERERR)
             if user.password is None or not check_password_hash(user.password, password):           
@@ -75,8 +93,10 @@ class Auth():
                 "refresh_token": refresh_token
             }
             # print("res: ", res)
+            logger.info("Success %s ")
             return response(res)   
         except Exception as e:
+            logger.info("except request")
             print(e)
             return bad_request(MessType.USERERR)
 

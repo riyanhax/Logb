@@ -6,6 +6,9 @@ from app.service import *
 from app import db
 from app.model import User as UserModel, Code
 from sqlalchemy import or_
+import logging
+
+logger = logging.getLogger('login.app')
 
 class User():
     def __init__(self) -> None:
@@ -65,7 +68,11 @@ class User():
 
     @staticmethod
     def get_all_user():
+        logger.info("function -------get_all_user-------")
         user_all = UserModel.query.filter(UserModel.role_id != 1).all()
+        logger.info("all_user %s" %len(user_all))
+        logger.info("all_user %s" %user_all)
+
         list_user = [user.to_json() for user in user_all]
         return response(list_user)
 
@@ -85,10 +92,15 @@ class User():
     @staticmethod
     def add_code(data):
         try:
+            logger.info("function -------add_code-------")
             user_id = data.get("user_id")
             code = data.get("code")
+            logger.info("code %s" %len(code))
+            logger.info("user_id %s" %len(user_id))
 
             user = UserModel.query.get(user_id)
+            logger.info("user %s" %len(user))
+
             if user:
                 code = generate_password_hash(code, method='sha256')
                 user.code = code

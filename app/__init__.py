@@ -6,6 +6,7 @@ from flask_bcrypt import Bcrypt
 from flask_jwt_extended import JWTManager
 from flask_migrate import Migrate
 from flask_mail import Mail
+import logging
 from app.config import config_by_name, BOILERPLATE_ENV
 
 db = SQLAlchemy()
@@ -47,7 +48,7 @@ def error_pages(app):
 def create_app(config_name="dev"):
     app = Flask(__name__)
     app.config.from_object(config_by_name[config_name])
-
+    logging.basicConfig(filename='logger.log', level=logging.DEBUG, filemode='w', datefmt='%d-%b-%y %H:%M:%S')
     db.init_app(app)
     flask_bcrypt.init_app(app)
     jwt.init_app(app)
