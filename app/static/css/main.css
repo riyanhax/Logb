@@ -262,7 +262,44 @@ body {
     left: 0;
     right: 0;
 }
-  
+
+.checkmark {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    -ms-transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+.checkmark_circle {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    background-color: #07ff26;
+    border-radius: 20px;
+    left: 0px;
+    top: 0px;
+}
+
+.checkmark_stem {
+    position: absolute;
+    width: 5px;
+    height: 25px;
+    background-color: #f8f9fa;
+    left: 21px;
+    top: 5px;
+}
+
+.checkmark_kick {
+    position: absolute;
+    width: 10px;
+    height: 5px;
+    background-color: #f8f9fa;
+    left: 11px;
+    top: 25px;
+}
+
 /* .loader-text:after {
     content: 'loading';
     animation: load 2s linear infinite;

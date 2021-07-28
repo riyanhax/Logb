@@ -15,7 +15,7 @@ logger = logging.getLogger('login.app')
 
 @jwt.user_identity_loader
 def load_user(identity):
-    print("identity: ", identity)
+    # print("identity: ", identity)
     return identity
 
 @jwt.user_lookup_loader

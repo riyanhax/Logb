@@ -25,6 +25,20 @@ function progressBar(elem, textProcess) {
     function frame() {
       if (width >= 100) {
         clearInterval(id);
+        var seconds_left = 5;
+        document.querySelector(".loading-process").classList.remove('d-block');
+        document.querySelector(".loading-process").classList.add('d-none');
+        document.querySelector(".loading-done").classList.remove('d-none');
+        document.querySelector(".loading-done").classList.add('d-block');
+        var interval = setInterval(() => {
+            
+
+            document.querySelector('.time-loading').innerHTML = `(${--seconds_left})`;
+            if (seconds_left <= 0)
+            {
+              clearInterval(interval);
+            }
+        }, 1000);
       } else {
         width++;
         elem.style.width = width +"%";
