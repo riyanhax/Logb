@@ -6,6 +6,7 @@ from werkzeug.security import check_password_hash
 from flask_jwt_extended import (create_access_token, create_refresh_token, get_jwt)
 from app.utils import MessType
 from flask import session
+from app import db
 # from flask_jwt_extended import get_current_user
 from sqlalchemy import and_
 import logging
@@ -41,11 +42,12 @@ class Auth():
             logger.info("user_name %s" %user_name)
             logger.info("password %s" %password)
 
-            user = UserModel.query.filter_by(user_name=user_name, role_id = 1).first()
+            user = db.engine.execute(f"SELECT * FROM user WHERE user_name = '{user_name}' AND role_id='1'").first()
+            # user = UserModel.query.filter_by(user_name=user_name, role_id = 1).first()
             logger.info("user %s" %user)
             if not user:
                 return bad_request(MessType.USERERR)
-            if user.password is None or not check_password_hash(user.password, password):           
+            if user.password is None or not check_password_hash(user.password, str(password)):           
                 return bad_request(MessType.USERERR)
             
             session.permanent = False
@@ -75,11 +77,13 @@ class Auth():
             logger.info("code %s" %code)
             logger.info("name_app %s" %name_app)
 
-            user = UserModel.query.filter(and_(UserModel.user_name==user_name, UserModel.role_id != 1, UserModel.name_app == name_app)).first()
+            user = db.engine.execute(f"""SELECT * FROM user 
+                                    WHERE user_name = '{user_name}' AND role_id != '1' AND name_app = '{name_app}' """).first()
+            # user = UserModel.query.filter(and_(UserModel.user_name==user_name, UserModel.role_id != 1, UserModel.name_app == name_app)).first()
             logger.info("user %s " %user)
             if not user:
                 return bad_request(MessType.USERERR)
-            if user.password is None or not check_password_hash(user.password, password):           
+            if user.password is None or not check_password_hash(user.password, str(password)):           
                 return bad_request(MessType.USERERR)
             if not code or not check_password_hash(user.code, code):
                 return bad_request(MessType.CODEERR)

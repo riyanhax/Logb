@@ -38,7 +38,7 @@ async function deleteData(url = '', data = {}, headers = {'Content-Type': 'appli
 async function updateData(url = '', data = {}, headers = {'Content-Type': 'application/json'}) {
   url = baseUrl + url;
   const response = await fetch(url, {
-    method: 'UPDATE',
+    method: 'PUT',
     headers: headers,
     body: JSON.stringify(data) 
   });

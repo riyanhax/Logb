@@ -7,12 +7,26 @@ from app import db
 from app.model import User as UserModel, Code
 from sqlalchemy import or_
 import logging
+import datetime
 
 logger = logging.getLogger('login.app')
 
 class User():
     def __init__(self) -> None:
         pass
+
+    def to_json(user):
+        return {
+            "id": user.id,
+            "verification": user.verification,
+            "phone_number": user.phone_number,
+            "role_id": user.role_id,
+            "user_name": user.user_name,
+            "code": user.code if user.code else '',
+            "name_app": user.name_app,
+            "signup_date": user.signup_date.strftime("%Y-%m-%d %H:%M:%S") if user.signup_date else '' 
+        }
+    
 
     @staticmethod
     def register_user(data):
@@ -22,26 +36,34 @@ class User():
         user_name = data.get('user_name')
         imgID = data.get('imgID')
         code = data.get('code', '')
+        date = datetime.datetime.now()
 
         if len(password) < 8 or len(user_name) < 8:
             return bad_request("Username and Password must be at least 8 characters.")
 
         password = generate_password_hash(password, method='sha256')
-        code = generate_password_hash(code, method='sha256') if code else None
-        user = UserModel.query.filter(or_(UserModel.user_name == user_name, UserModel.phone_number == phone_number)).first()
+        user = db.engine.execute(f"SELECT * FROM user WHERE user_name='{user_name}' OR phone_number='{phone_number}'").first()
 
         if not user:
-            user = UserModel(
-                password=password, 
-                phone_number= phone_number, 
-                user_name = user_name,
-                name_app = imgID,
-                code = code
-            )
+            if code:
+                code = generate_password_hash(code, method='sha256')
+                ret = db.engine.execute(f"""INSERT INTO user (password, phone_number, user_name, name_app, code, is_active, signup_date, role_id) 
+                        VALUES ('{password}','{phone_number}', '{user_name}', '{imgID}', '{code}',  '1', '{date}', '3') """)
+            else:
+                ret = db.engine.execute(f"""INSERT INTO user (password, phone_number, user_name, name_app, is_active, signup_date, role_id) 
+                        VALUES ('{password}','{phone_number}', '{user_name}', '{imgID}',  '1', '{date}', '3') """)
             
-            db.session.add(user)
-            db.session.commit()
-            return response(user.to_json())
+            user = {
+            "id": ret.lastrowid,
+            "verification": 0,
+            "phone_number": phone_number,
+            "role_id": 3,
+            "user_name": user_name,
+            "code": code,
+            "name_app": imgID,
+            "signup_date": date.strftime("%Y-%m-%d %H:%M:%S")
+            }
+            return response(user)
         else:
             return bad_request("Phone number or user name already exists.")
         # except:
@@ -69,44 +91,37 @@ class User():
     @staticmethod
     def get_all_user():
         logger.info("function -------get_all_user-------")
-        user_all = UserModel.query.filter(UserModel.role_id != 1).all()
+        ret = db.engine.execute(f"""SELECT * FROM user WHERE role_id != '1' """).fetchall()
+        user_all = [User.to_json(u) for u in ret]
         logger.info("all_user %s" %len(user_all))
         logger.info("all_user %s" %user_all)
 
-        list_user = [user.to_json() for user in user_all]
-        return response(list_user)
+        return response(user_all)
 
     @staticmethod
     def delete_user(data):
+        logger.info("function -------delete_user-------")
         try:
             user_id = data.get('user_id')
-            user = UserModel.query.get(user_id)
-            if user:
-                db.session.delete(user)
-                db.session.commit()
-                return response(user.to_json())
-            return bad_request()
+            db.engine.execute(f"DELETE FROM user WHERE user.id = '{user_id}'")
+            logger.info("Done")
+            return response()
         except:
+            logger.info("False")
             return bad_request()
-
+            
     @staticmethod
     def add_code(data):
         try:
             logger.info("function -------add_code-------")
             user_id = data.get("user_id")
             code = data.get("code")
-            logger.info("code %s" %len(code))
-            logger.info("user_id %s" %len(user_id))
-
-            user = UserModel.query.get(user_id)
-            logger.info("user %s" %len(user))
-
-            if user:
-                code = generate_password_hash(code, method='sha256')
-                user.code = code
-                db.session.commit()
-                return response(user.to_json())
-            return bad_request()
+            logger.info("code %s" %(code))
+            logger.info("user_id %s" %(user_id))
+            code = generate_password_hash(str(code), method='sha256')
+            db.engine.execute(f"UPDATE user SET code='{code}' WHERE id='{user_id}'") 
+            logger.info("Success")
+            return response()
         except:
             return bad_request()
     

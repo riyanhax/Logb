@@ -36,7 +36,7 @@ def delete_user():
     data = request.json
     return User.delete_user(data)
 
-@user_blp.route("/code", methods = ["UPDATE"])
+@user_blp.route("/code", methods = ["PUT"])
 @jwt_required()
 def add_code():
     data = request.json

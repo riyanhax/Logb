@@ -274,8 +274,8 @@ class AdminManagement{
         ).then(
             res => {
                 $(this.modalEdit).modal("hide");
-                const index = this.userList.findIndex(user => user.id == res.data.id);
-                this.userList[index].code = res.data.code;
+                const index = this.userList.findIndex(user => user.id == payload.user_id);
+                this.userList[index].code = payload.code;
                 this.renderUserList(this.userList);
                 alert("add code thành công!");
             }
@@ -304,7 +304,7 @@ class AdminManagement{
             return res.json();
         })
         .then(res => {
-            this.userList = this.userList.filter(user.id != res.data.id);
+            this.userList = this.userList.filter(user.id != user_id);
             this.renderUserList(this.userList);
         })
         .catch(err => alert("không delete được user!"))

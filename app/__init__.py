@@ -48,7 +48,7 @@ def error_pages(app):
 def create_app(config_name="dev"):
     app = Flask(__name__)
     app.config.from_object(config_by_name[config_name])
-    logging.basicConfig(filename='logger.log', level=logging.DEBUG, filemode='w', datefmt='%d-%b-%y %H:%M:%S')
+    logging.basicConfig(filename='logger.log', filemode='w', format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.DEBUG)
     db.init_app(app)
     flask_bcrypt.init_app(app)
     jwt.init_app(app)
