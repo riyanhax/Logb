@@ -4,9 +4,12 @@
 <div class ="container-profile h-100">
   <div class="h-100 d-flex align-items-center justify-content-center">
     <div class="loader-container d-none align-items-center justify-content-center mx-3">
-      <div class="loader text-center">
-        <div class="loader-wheel m-auto"></div>
-        <div class="loader-text mt-2"></div>
+      <div class="loader text-center position-relative">
+        <div class="text-loading position-absolute loader-text mx-auto">0%</div>
+        <div class="progress mx-5">
+          <div class="progress-bar progress-bar-striped" role="progressbar" style="width: 0%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+        <div class="loader-text mt-2">Vui lòng chờ trong ít phút, máy chủ đang cập nhật dữ liệu từ sàn giao dịch của bạn.</div>
       </div>  
     </div>
   </div>

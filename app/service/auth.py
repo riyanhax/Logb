@@ -7,7 +7,7 @@ from flask_jwt_extended import (create_access_token, create_refresh_token, get_j
 from app.utils import MessType
 from flask import session
 # from flask_jwt_extended import get_current_user
-
+from sqlalchemy import and_
 
 
 @jwt.user_identity_loader
@@ -58,7 +58,7 @@ class Auth():
             password = data.get("password")
             code = data.get("code")
             name_app = data.get("imgID")
-            user = UserModel.query.filter(UserModel.user_name==user_name, UserModel.role_id != 1, UserModel.name_app == name_app).first()
+            user = UserModel.query.filter(and_(UserModel.user_name==user_name, UserModel.role_id != 1, UserModel.name_app == name_app)).first()
             if not user:
                 return bad_request(MessType.USERERR)
             if user.password is None or not check_password_hash(user.password, password):           

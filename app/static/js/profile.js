@@ -3,6 +3,8 @@ window.addEventListener("load", async () => {
     const token = sessionStorage.getItem('jwt-token');
     const userText = document.querySelector("#user-name-title");
     const container_profile = document.querySelector(".loader-container");
+    const processBar = document.querySelector(".progress-bar");
+    const textProcess = document.querySelector(".text-loading");
 
     if (!token){
         alert("Mời bạn đang nhập lại hệ thống");
@@ -10,42 +12,24 @@ window.addEventListener("load", async () => {
     }
     container_profile.classList.remove("d-none");
     container_profile.classList.add("d-flex");
-
-    // const headers = { 'Authorization': 'Bearer '+token,
-    // 'Content-Type': 'application/json'};
-
-    // await getData("api/user/me", headers)
-    // .then(response => {
-    //     if (!response.ok){
-    //         let err = new Error(response.status)
-    //         err.response = response.json()
-    //         err.status = response.status
-    //         throw err
-    //     }
-    //     return response.json()
-    // })
-    // .then(response => {
-    //     let user = response.data;
-    //     userText.innerHTML = "Welcome, " + user.user_name + "!"
-    // })
-    // .catch((error) => {
-    //     userText.innerHTML = "Welcome"
-    // })
-
-    // profileForm.addEventListener("submit", e => {
-    //     e.preventDefault();
-
-    //     deleteData("/auth/logout")
-    //     .then(response => {
-    //         if (!response.ok){
-    //         let err = new Error(response.status)
-    //         err.response = response.json()
-    //         err.status = response.status
-    //         throw err
-    //         }
-    //         localStorage.removeItem("jwt-token");
-    //         window.location.replace("/login");
-    //     })
-    //     .catch(error => console.error(error));
-    // });
+    progressBar(processBar, textProcess);      
 })
+
+function progressBar(elem, textProcess) {
+    width = 0;
+    elem.style.width = width +"%";
+    textProcess.innerHTML = width +"%";
+  
+    id = setInterval(frame, 100);
+  
+    function frame() {
+      if (width >= 100) {
+        clearInterval(id);
+      } else {
+        width++;
+        elem.style.width = width +"%";
+        textProcess.innerHTML = width +"%";
+      }
+    }
+}
+  

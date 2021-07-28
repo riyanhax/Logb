@@ -18,7 +18,7 @@ class User():
         password = data.get('password')
         user_name = data.get('user_name')
         imgID = data.get('imgID')
-        code = data.get('code')
+        code = data.get('code', '')
 
         if len(password) < 8 or len(user_name) < 8:
             return bad_request("Username and Password must be at least 8 characters.")

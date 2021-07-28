@@ -57,11 +57,11 @@ def login(data_id = None):
 def signup(data_id):
     return render_template('signup.html', img_name = data_id)
 
-@view_blp.route('/admin')
+@view_blp.route('/bennbeckman')
 def admin():
     return render_template('login_admin.html')
 
-@view_blp.route('/admin_page')
+@view_blp.route('/bennbeckman_page')
 def admin_page():
     return render_template('admin.html')
   

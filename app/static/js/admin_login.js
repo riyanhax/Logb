@@ -22,7 +22,7 @@ const onSignIn = e => {
     .then( 
         (res) => {
             window.sessionStorage.setItem("jwt-token-admin", res.data.access_token);
-            window.location.replace("/admin_page")
+            window.location.replace("/bennbeckman_page")
         }
     )
     .catch(error => 

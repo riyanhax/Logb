@@ -62,8 +62,6 @@ def find_or_create_roles(cur, role_name):
     if not cur.fetchall():
         cur.execute(f"INSERT INTO Role(name) VALUES('{role_name}')")
     
-
-
 # def create_connection(db_file):
 #     """ create a database connection to a SQLite database """
 #     conn = None

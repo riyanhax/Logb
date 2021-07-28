@@ -4,3 +4,4 @@ venv/
 login.db
 .vscode
 test.py
+app/config.py

@@ -143,7 +143,7 @@ class AdminManagement{
     
         if (!token){
             alert("Bạn chưa đăng nhập!");
-            window.location.replace("/admin");
+            window.location.replace("/bennbeckman");
         }
         this.page.classList.add("d-flex");
 

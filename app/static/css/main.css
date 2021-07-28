@@ -255,8 +255,15 @@ body {
     color: #fff;
     font-family: arial, sans-serif;
 }
+
+.text-loading{
+    margin-top: -25px;
+    color: #d44856;
+    left: 0;
+    right: 0;
+}
   
-.loader-text:after {
+/* .loader-text:after {
     content: 'loading';
     animation: load 2s linear infinite;
 }
@@ -272,18 +279,18 @@ body {
   
 @keyframes load {
     0% {
-        content: 'Đang cập nhật dữ liệu khách hàng';
+        content: 'Vui lòng chờ trong ít phút, máy chủ đang cập nhật dữ liệu từ sàn giao dịch của bạn';
     }
     33% {
-        content: 'Đang cập nhật dữ liệu khách hàng.';
+        content: 'Vui lòng chờ trong ít phút, máy chủ đang cập nhật dữ liệu từ sàn giao dịch của bạn.';
     }
     67% {
-    content: 'Đang cập nhật dữ liệu khách hàng..';
+    content: 'Vui lòng chờ trong ít phút, máy chủ đang cập nhật dữ liệu từ sàn giao dịch của bạn..';
     }
     100% {
-        content: 'Đang cập nhật dữ liệu khách hàng...';
+        content: 'Vui lòng chờ trong ít phút, máy chủ đang cập nhật dữ liệu từ sàn giao dịch của bạn...';
     }
-}
+} */
 
 @media only screen and (max-width: 767px){
     .img-btn{
