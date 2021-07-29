@@ -1,13 +1,25 @@
 window.addEventListener("load", () => {
     const btnLogin = document.querySelector(".btn-login__admin");
     btnLogin.addEventListener("click", onSignIn);
+
+    const loginForm = document.querySelector("#admin-login");
+    loginForm.addEventListener("keyup", onEnterPress);
 })
 
+const onEnterPress = e =>{
+    if (e.keyCode === 13) {
+        onSignIn(e);
+    }
+}
+
 const onSignIn = e => {
+    e.preventDefault();
     let payload = {
         user_name: document.getElementById("username-login__admin").value,
         password: document.getElementById("password-login__admin").value,
     }
+    
+
 
     postData("/auth/admin", payload)
     .then(res => {

@@ -31,7 +31,8 @@ class AdminManagement{
         this.btnSaveuser.addEventListener("click", this.onAddNewUser.bind(this));
     }
 
-    onAddNewUser(){
+    onAddNewUser(e){
+        e.preventDefault();
         let payload = {
             phone_number: this.modalNewUser.querySelector('.phone-new').value,
             user_name: this.modalNewUser.querySelector('.name-new').value,
@@ -245,6 +246,7 @@ class AdminManagement{
     }
 
     onApplyCode(e){
+        e.preventDefault();
         const token = sessionStorage.getItem('jwt-token-admin');
         const headers = { 'Authorization': 'Bearer '+token,
         'Content-Type': 'application/json'};
@@ -304,7 +306,7 @@ class AdminManagement{
             return res.json();
         })
         .then(res => {
-            this.userList = this.userList.filter(user.id != user_id);
+            this.userList = this.userList.filter(user => user.id != user_id);
             this.renderUserList(this.userList);
         })
         .catch(err => alert("không delete được user!"))
